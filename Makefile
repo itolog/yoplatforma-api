@@ -1,9 +1,11 @@
 BINARY=api_platforma
 
 # GOLANG
+.PHONY : run
 run:
 	go run ./src/cmd/main.go
 
+.PHONY : watch
 watch:
 	air
 
@@ -25,8 +27,9 @@ up-dev:
 build-d:
 	go build -o ${BINARY} ./src/cmd/main.go
 
-.DEFAULT_GOAL: watch
-
 ###### DEV ######
 start-dev:
 	make up-dev && air
+
+
+.DEFAULT_GOAL := watch
