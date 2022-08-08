@@ -1,21 +1,13 @@
 package main
 
 import (
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/logger"
+	"api_platforma/src/internal/app"
+	"log"
 )
 
 func main() {
-	app := fiber.New()
-
-	app.Use(logger.New())
-
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("Hello, World!")
-	})
-
-	err := app.Listen(":8000")
+	err := app.Start()
 	if err != nil {
-		return
+		log.Fatal(err)
 	}
 }
