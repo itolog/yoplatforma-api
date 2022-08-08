@@ -1,0 +1,29 @@
+FROM golang:1.19-alpine as builder
+
+RUN apk update && apk upgrade && \
+    apk --update add git make
+
+WORKDIR /app
+
+COPY go.mod ./
+COPY go.sum ./
+RUN go mod download && go mod verify
+
+COPY . .
+
+RUN make build-d
+
+# Distribution
+FROM alpine:latest
+
+RUN apk update && apk upgrade && \
+    apk --update --no-cache add tzdata && \
+    mkdir /app 
+
+WORKDIR /app 
+
+# EXPOSE 8080
+
+COPY --from=builder /app/api_platforma /app
+
+CMD ["/app/api_platforma"]
