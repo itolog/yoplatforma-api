@@ -11,14 +11,33 @@ type Config struct {
 	Host string `env:"HOST"`
 }
 
+const (
+	DEV  = "development"
+	PROD = "production"
+)
+
 func NewConfig() *Config {
-	err := godotenv.Load()
-	if err != nil {
-		logging.Fatal("Error loading .env file")
+	appEnv := os.Getenv("FOO_ENV")
+
+	if appEnv == PROD {
+		err := godotenv.Load(".env")
+		if err != nil {
+			logging.Fatal("Error loading .env file")
+		}
+	} else if appEnv == DEV {
+		err := godotenv.Load(".env.development")
+		if err != nil {
+			logging.Fatal("Error loading .env.development file")
+		}
+	} else {
+		err := godotenv.Load(".env.development.local")
+		if err != nil {
+			logging.Fatal("Error loading .env.development.local file")
+		}
 	}
 
 	return &Config{
-		Port: os.Getenv("APP_PORT"),
-		Host: os.Getenv("APP_HOST"),
+		Port: os.Getenv("APP_YP_PORT"),
+		Host: os.Getenv("APP_YP_HOST"),
 	}
 }
