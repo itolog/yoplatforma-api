@@ -1,6 +1,7 @@
 package app
 
 import (
+	"api_platforma/src/internal/config"
 	"api_platforma/src/internal/user"
 	"github.com/goccy/go-json"
 	"github.com/gofiber/fiber/v2"
@@ -8,10 +9,10 @@ import (
 
 type App struct {
 	server *fiber.App
-	config *Config
+	config *config.Config
 }
 
-func newApp(config *Config) *App {
+func NewApp(config *config.Config) *App {
 	return &App{
 		config: config,
 		server: fiber.New(fiber.Config{
@@ -22,12 +23,9 @@ func newApp(config *Config) *App {
 	}
 }
 
-func Start() error {
-	config := newConfig()
-	app := newApp(config)
-
+func (app *App) Start() error {
 	userHandler := user.NewUserHandler()
 	userHandler.Register(app.server)
 
-	return app.server.Listen(config.Port)
+	return app.server.Listen(app.config.Port)
 }

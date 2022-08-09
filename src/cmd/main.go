@@ -2,12 +2,15 @@ package main
 
 import (
 	"api_platforma/src/internal/app"
-	"log"
+	"api_platforma/src/internal/config"
+	"api_platforma/src/pkg/logging"
 )
 
 func main() {
-	err := app.Start()
-	if err != nil {
-		log.Fatal(err)
+	cfg := config.NewConfig()
+	server := app.NewApp(cfg)
+	logging.Info("Start server on port ", cfg.Port)
+	if err := server.Start(); err != nil {
+		logging.Fatal(err)
 	}
 }
