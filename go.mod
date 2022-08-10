@@ -2,16 +2,18 @@ module api_platforma
 
 go 1.18
 
-require github.com/gofiber/fiber/v2 v2.36.0
+require (
+	github.com/goccy/go-json v0.9.10
+	github.com/gofiber/fiber/v2 v2.36.0
+	github.com/ilyakaznacheev/cleanenv v1.3.0
+	github.com/joho/godotenv v1.4.0
+	github.com/sirupsen/logrus v1.9.0
+)
 
 require (
 	github.com/BurntSushi/toml v1.2.0 // indirect
 	github.com/andybalholm/brotli v1.0.4 // indirect
-	github.com/goccy/go-json v0.9.10 // indirect
-	github.com/ilyakaznacheev/cleanenv v1.3.0 // indirect
-	github.com/joho/godotenv v1.4.0 // indirect
 	github.com/klauspost/compress v1.15.0 // indirect
-	github.com/sirupsen/logrus v1.9.0 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.38.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
