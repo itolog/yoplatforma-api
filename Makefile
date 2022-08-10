@@ -7,8 +7,9 @@ run:
 
 .PHONY : watch
 watch:
-	air
+	APP_YP_ENV="development" air
 
+.PHONY : build
 build:
 	go build -o ./build/api_platforma ./src/cmd/main.go
 

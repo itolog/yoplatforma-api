@@ -1,6 +1,6 @@
 module api_platforma
 
-go 1.18
+go 1.19
 
 require github.com/gofiber/fiber/v2 v2.36.0
 

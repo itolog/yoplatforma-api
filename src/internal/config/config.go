@@ -2,13 +2,14 @@ package config
 
 import (
 	"api_platforma/src/pkg/logging"
+	"github.com/ilyakaznacheev/cleanenv"
 	"github.com/joho/godotenv"
 	"os"
 )
 
 type Config struct {
-	Port string `env:"PORT"`
-	Host string `env:"HOST"`
+	Port string `env:"APP_YP_PORT" env-default:":8000"`
+	Host string `env:"APP_YP_HOST" env-default:"localhost"`
 }
 
 const (
@@ -17,7 +18,7 @@ const (
 )
 
 func NewConfig() *Config {
-	appEnv := os.Getenv("FOO_ENV")
+	appEnv := os.Getenv("APP_YP_ENV")
 
 	if appEnv == PROD {
 		err := godotenv.Load(".env")
@@ -29,15 +30,19 @@ func NewConfig() *Config {
 		if err != nil {
 			logging.Fatal("Error loading .env.development file")
 		}
-	} else {
-		err := godotenv.Load(".env.development.local")
-		if err != nil {
-			logging.Fatal("Error loading .env.development.local file")
-		}
 	}
 
+	var cfg Config
+
+	err := cleanenv.ReadEnv(&cfg)
+	if err != nil {
+		logging.Warn(err)
+	}
+
+	logging.Info(cfg)
+
 	return &Config{
-		Port: os.Getenv("APP_YP_PORT"),
-		Host: os.Getenv("APP_YP_HOST"),
+		Port: cfg.Port,
+		Host: cfg.Host,
 	}
 }
