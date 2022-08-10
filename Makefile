@@ -11,7 +11,7 @@ watch:
 
 .PHONY : build
 build:
-	go build -o ./bin/${BINARY} ./src/cmd/main.go
+	go build -o ./bin/go-getting-started ./src/cmd/main.go
 
 lint:
 	golangci-lint run ./... -v	

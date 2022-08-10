@@ -1,1 +1,1 @@
-web: bin/api_platforma
+web: bin/go-getting-started

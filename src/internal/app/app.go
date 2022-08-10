@@ -27,5 +27,5 @@ func (app *App) Start() error {
 	userHandler := user.NewUserHandler()
 	userHandler.Register(app.server)
 
-	return app.server.Listen(app.config.Port)
+	return app.server.Listen(":8000")
 }
