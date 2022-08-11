@@ -30,5 +30,5 @@ func (app *App) Start() error {
 		return ctx.SendString("Hello World!")
 	})
 
-	return app.server.Listen(app.config.Port)
+	return app.server.Listen(":8000")
 }
