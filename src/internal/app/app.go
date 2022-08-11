@@ -5,6 +5,7 @@ import (
 	"api_platforma/src/internal/user"
 	"github.com/goccy/go-json"
 	"github.com/gofiber/fiber/v2"
+	"os"
 )
 
 type App struct {
@@ -30,5 +31,7 @@ func (app *App) Start() error {
 		return ctx.SendString("Hello World!")
 	})
 
-	return app.server.Listen(":8000")
+	port := os.Getenv("PORT")
+
+	return app.server.Listen(":" + port)
 }
