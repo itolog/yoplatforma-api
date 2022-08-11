@@ -39,8 +39,6 @@ func NewConfig() *Config {
 		logging.Warn(err)
 	}
 
-	logging.Info(cfg)
-
 	return &Config{
 		Port: cfg.Port,
 		Host: cfg.Host,

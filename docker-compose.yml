@@ -6,7 +6,7 @@ services:
     build:
       dockerfile: Dockerfile.prod
       context: .
+    restart: always
     ports:
-          - 8080:8080  
-    volumes:
-      - .:/opt/app/api
+          - "8000:8000"
+    env_file: ".env"
