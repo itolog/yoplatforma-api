@@ -8,7 +8,7 @@ import (
 )
 
 type Config struct {
-	Port string `env:"PORT" env-default:":8000"`
+	Port string `env:"PORT" env-default:"8000"`
 	Host string `env:"HOST" env-default:"localhost"`
 }
 
@@ -38,7 +38,7 @@ func NewConfig() *Config {
 	if err != nil {
 		logging.Warn(err)
 	}
-
+	logging.Info("Port", cfg.Port)
 	return &Config{
 		Port: cfg.Port,
 		Host: cfg.Host,
