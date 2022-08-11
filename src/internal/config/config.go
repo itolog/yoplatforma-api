@@ -8,8 +8,8 @@ import (
 )
 
 type Config struct {
-	Port string `env:"APP_YP_PORT" env-default:":8000"`
-	Host string `env:"APP_YP_HOST" env-default:"localhost"`
+	Port string `env:"PORT" env-default:":8000"`
+	Host string `env:"HOST" env-default:"localhost"`
 }
 
 const (

@@ -22,7 +22,7 @@ RUN apk update && apk upgrade && \
 
 WORKDIR /app 
 
- EXPOSE 8000
+EXPOSE 8000
 
 COPY --from=builder /app/api_platforma /app
 
