@@ -1,1 +1,1 @@
-web: bin/api_platforma --port $PORT
+web: bin/api_platforma
