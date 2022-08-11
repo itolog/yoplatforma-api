@@ -23,6 +23,7 @@ func (h *handler) Register(app *fiber.App) {
 }
 
 func (h *handler) GetUsers(c *fiber.Ctx) error {
+	users := [2]string{"Don", "Mon"}
 	c.Status(fiber.StatusOK)
-	return c.SendString("Users")
+	return c.JSON(users)
 }

@@ -27,5 +27,9 @@ func (app *App) Start() error {
 	userHandler := user.NewUserHandler()
 	userHandler.Register(app.server)
 
+	app.server.Get("/", func(ctx *fiber.Ctx) error {
+		return ctx.SendString("Hello World!")
+	})
+
 	return app.server.Listen(":8000")
 }
