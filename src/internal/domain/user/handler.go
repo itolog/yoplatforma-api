@@ -4,6 +4,8 @@ import (
 	"api_platforma/src/internal/handlers"
 	"api_platforma/src/pkg/logging"
 	"github.com/gofiber/fiber/v2"
+	"log"
+	"path/filepath"
 )
 
 var _ handlers.Handler = &handler{}
@@ -27,6 +29,12 @@ func (h *handler) Register(app *fiber.App) {
 }
 
 func (h *handler) GetUsers(c *fiber.Ctx) error {
+	p, err := filepath.Abs("src/assets/fake.json")
+
+	if err != nil {
+
+		log.Fatal(err)
+	}
 	c.Status(fiber.StatusOK)
-	return c.SendFile("src/assets/fake.json", true)
+	return c.SendFile(p, true)
 }
