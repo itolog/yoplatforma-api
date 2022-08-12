@@ -18,17 +18,18 @@ const (
 )
 
 func NewConfig() *Config {
+	log := logging.GetLogger()
 	appEnv := os.Getenv("APP_YP_ENV")
 
 	if appEnv == PROD {
 		err := godotenv.Load(".env")
 		if err != nil {
-			logging.Fatal("Error loading .env file")
+			log.Fatal("Error loading .env file")
 		}
 	} else if appEnv == DEV {
 		err := godotenv.Load(".env.development")
 		if err != nil {
-			logging.Fatal("Error loading .env.development file")
+			log.Fatal("Error loading .env.development file")
 		}
 	}
 
@@ -36,9 +37,9 @@ func NewConfig() *Config {
 
 	err := cleanenv.ReadEnv(&cfg)
 	if err != nil {
-		logging.Warn(err)
+		log.Warn(err)
 	}
-	logging.Info("Port", cfg.Port)
+
 	return &Config{
 		Port: cfg.Port,
 		Host: cfg.Host,
