@@ -1,8 +1,8 @@
 package app
 
 import (
-	"api_platforma/src/domain/user"
 	"api_platforma/src/internal/config"
+	"api_platforma/src/internal/domain/user"
 	"api_platforma/src/pkg/logging"
 	"github.com/goccy/go-json"
 	"github.com/gofiber/fiber/v2"
