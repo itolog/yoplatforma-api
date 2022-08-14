@@ -3,9 +3,8 @@ package user
 import (
 	"api_platforma/src/internal/handlers"
 	"api_platforma/src/pkg/logging"
+	"embed"
 	"github.com/gofiber/fiber/v2"
-	"log"
-	"path/filepath"
 )
 
 var _ handlers.Handler = &handler{}
@@ -15,12 +14,14 @@ const (
 )
 
 type handler struct {
-	log *logging.Logger
+	log     *logging.Logger
+	embedFs *embed.FS
 }
 
-func NewUserHandler(log *logging.Logger) handlers.Handler {
+func NewUserHandler(log *logging.Logger, embedFs *embed.FS) handlers.Handler {
 	return &handler{
-		log: log,
+		log:     log,
+		embedFs: embedFs,
 	}
 }
 
@@ -29,12 +30,13 @@ func (h *handler) Register(app *fiber.App) {
 }
 
 func (h *handler) GetUsers(c *fiber.Ctx) error {
-	p, err := filepath.Abs("src/assets/fake.json")
 
+	fileData, err := h.embedFs.ReadFile("assets/fake.json")
 	if err != nil {
-
-		log.Fatal(err)
+		h.log.Warn(err)
 	}
+
 	c.Status(fiber.StatusOK)
-	return c.SendFile(p, true)
+	c.Type("json")
+	return c.Send(fileData)
 }

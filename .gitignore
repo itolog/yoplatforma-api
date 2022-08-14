@@ -15,6 +15,7 @@
 # vendor/
 build/
 tmp/
+bin/
 
 # IDEs and editors
 .idea
