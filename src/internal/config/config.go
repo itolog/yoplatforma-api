@@ -8,8 +8,9 @@ import (
 )
 
 type Config struct {
-	Port string `env:"PORT" env-default:"8000"`
-	Host string `env:"HOST" env-default:"localhost"`
+	Port     string `env:"PORT" env-default:"8000"`
+	Host     string `env:"HOST" env-default:"localhost"`
+	PrefixV1 string `env:"PREFIX_V1" env-default:"/api/v1"`
 }
 
 const (
@@ -41,7 +42,8 @@ func NewConfig() *Config {
 	}
 
 	return &Config{
-		Port: cfg.Port,
-		Host: cfg.Host,
+		Port:     cfg.Port,
+		Host:     cfg.Host,
+		PrefixV1: cfg.PrefixV1,
 	}
 }

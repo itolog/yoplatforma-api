@@ -1,6 +1,7 @@
 package app
 
 import (
+	"api_platforma/src/internal/config"
 	"embed"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/compress"
@@ -11,13 +12,13 @@ import (
 	"net/http"
 )
 
-func configureApp(app *fiber.App, embedFs *embed.FS) {
+func configureApp(app *fiber.App, embedFs *embed.FS, config *config.Config) {
 	app.Use(recover.New())
 	app.Use(logger.New())
 	app.Use(cors.New())
 	app.Use(compress.New())
 
-	app.Use(filesystem.New(filesystem.Config{
+	app.Use(config.PrefixV1, filesystem.New(filesystem.Config{
 		Root: http.FS(embedFs),
 	}))
 }

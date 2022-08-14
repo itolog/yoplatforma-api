@@ -2,7 +2,7 @@ package app
 
 import (
 	"api_platforma/src/internal/config"
-	"api_platforma/src/internal/domain/user"
+	"api_platforma/src/internal/domain"
 	"api_platforma/src/pkg/logging"
 	"embed"
 	"github.com/goccy/go-json"
@@ -31,15 +31,18 @@ func NewApp(config *config.Config, embedFs *embed.FS) *App {
 
 func (app *App) Start() error {
 	// Init Middleware
-	configureApp(app.server, app.embedFs)
-
-	userHandler := user.NewUserHandler(app.Logging, app.embedFs)
-	userHandler.Register(app.server)
-
-	app.server.Get("/metrics", monitor.New(monitor.Config{Title: "MyService Metrics Page"}))
+	configureApp(app.server, app.embedFs, app.config)
 
 	app.server.Get("/", func(ctx *fiber.Ctx) error {
 		return ctx.SendString("Hello World!")
+	})
+	app.server.Get("/metrics", monitor.New(monitor.Config{Title: "MyService Metrics Page"}))
+
+	domain.InitDomains(domain.Option{
+		Server:  app.server,
+		Logging: app.Logging,
+		EmbedFs: app.embedFs,
+		Config:  app.config,
 	})
 
 	return app.server.Listen(":" + app.config.Port)
