@@ -14,4 +14,6 @@ func NewUserController(log *logging.Logger, embedFs *embed.FS, app fiber.Router)
 	userService := NewService(log, embedFs)
 	// [/api/v1/users] Get all users
 	app.Get(usersUrl, userService.GetUsers)
+
+	app.Post(usersUrl, userService.CreateUser)
 }

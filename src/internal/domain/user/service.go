@@ -2,12 +2,14 @@ package user
 
 import (
 	"api_platforma/src/pkg/logging"
+	"api_platforma/src/pkg/validation"
 	"embed"
 	"github.com/gofiber/fiber/v2"
 )
 
 type Service interface {
 	GetUsers(ctx *fiber.Ctx) error
+	CreateUser(ctx *fiber.Ctx) error
 }
 
 type service struct {
@@ -32,4 +34,22 @@ func (h *service) GetUsers(c *fiber.Ctx) error {
 	c.Status(fiber.StatusOK)
 	c.Type("json")
 	return c.Send(fileData)
+}
+
+func (h *service) CreateUser(c *fiber.Ctx) error {
+	user := new(CreateUserDto)
+
+	if err := c.BodyParser(user); err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": err.Error(),
+		})
+
+	}
+	errors := validation.ValidateStruct(*user)
+	if errors != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(errors)
+
+	}
+
+	return c.JSON(user)
 }
