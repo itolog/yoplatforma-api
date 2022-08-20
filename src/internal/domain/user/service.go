@@ -2,14 +2,13 @@ package user
 
 import (
 	"api_platforma/src/pkg/logging"
-	"api_platforma/src/pkg/validation"
 	"embed"
-	"github.com/gofiber/fiber/v2"
+	"github.com/kataras/iris/v12"
 )
 
 type Service interface {
-	GetUsers(ctx *fiber.Ctx) error
-	CreateUser(ctx *fiber.Ctx) error
+	GetUsers(ctx iris.Context)
+	CreateUser(ctx iris.Context)
 }
 
 type service struct {
@@ -25,31 +24,20 @@ func NewService(log *logging.Logger, embedFs *embed.FS) Service {
 	}
 }
 
-func (h *service) GetUsers(c *fiber.Ctx) error {
+func (h *service) GetUsers(c iris.Context) {
 	fileData, err := h.embedFs.ReadFile("assets/fake.json")
 	if err != nil {
 		h.log.Warn(err)
 	}
 
-	c.Status(fiber.StatusOK)
-	c.Type("json")
-	return c.Send(fileData)
+	c.JSON(fileData).Error()
 }
 
-func (h *service) CreateUser(c *fiber.Ctx) error {
+func (h *service) CreateUser(c iris.Context) {
 	user := new(CreateUserDto)
 
-	if err := c.BodyParser(user); err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"message": err.Error(),
-		})
+	user.Name = c.Params().Get("name")
+	user.Password = c.Params().Get("password")
 
-	}
-	errors := validation.ValidateStruct(*user)
-	if errors != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(errors)
-
-	}
-
-	return c.JSON(user)
+	c.JSON(user).Error()
 }
